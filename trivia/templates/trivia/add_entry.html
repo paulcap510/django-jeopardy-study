@@ -1,0 +1,16 @@
+{% extends "trivia/base.html" %}
+
+{% block title %}Add New Entry{% endblock %}
+
+{% block content %}
+<h2>Add New Entry</h2>
+
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <div class="actions">
+    <button class="btn" type="submit">Save</button>
+    <a class="btn btn-outline" href="{% url 'home' %}">Cancel</a>
+  </div>
+</form>
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends "trivia/base.html" %}
+
+{% block title %}My Trivia Wiki{% endblock %}
+
+{% block content %}
+<h2>My Trivia Wiki</h2>
+
+<h3>Search</h3>
+<form class="search-form" method="GET" action="{% url 'search_results' %}">
+  <input type="text" name="q" placeholder="Search..." value="{{ request.GET.q }}">
+  <button type="submit">Search</button>
+</form>
+
+</form>
+
+<h3>Browse by category</h3>
+<ul class="tile-grid">
+  {% for category in categories %}
+    <li><a href="{% url 'category_entries' category.id %}">{{ category.name }}</a></li>
+  {% endfor %}
+</ul>
+
+<h3>All entries</h3>
+<ul class="tile-grid">
+  {% for entry in entries %}
+    <li><a href="{% url 'entry_detail' entry.id %}">{{ entry.name }}</a></li>
+  {% endfor %}
+</ul>
+<a class="btn" href="{% url 'add_entry' %}">+ Add New Entry</a>
+<p>
+
+<a class="btn" href="{% url 'generate_entry' %}">+ Generate Entry with AI</a>
+</p>
+
+<script>
+  if (window.location.search.includes('deleted=1')) {
+    alert('Entry deleted');
+  }
+</script>
+{% endblock %}

@@ -1,0 +1,69 @@
+{% extends "trivia/base.html" %}
+{% load wiki_filters %}
+
+{% block title %}{{ entry.name }}{% endblock %}
+
+{% block content %}
+<h2>{{ entry.name }}</h2>
+<div class="clue-box">{{ entry.content|render_links|linebreaksbr }}</div>
+
+<div class="actions">
+  <a class="btn" href="{% url 'edit_entry' entry.id %}">Edit</a>
+  <form method="post" action="{% url 'delete_entry' entry.id %}">
+    {% csrf_token %}
+    <button class="btn btn-danger" type="submit">Delete</button>
+  </form>
+</div>
+
+<a class="back-link" href="{% url 'home' %}">&larr; Home</a>
+
+<button id="create-entry-btn" style="position: absolute; display: none; z-index: 1000;" class="btn">+ Create entry</button>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const button = document.getElementById('create-entry-btn');
+
+  document.addEventListener('mouseup', function () {
+    const selection = window.getSelection();
+    const selectedText = selection.toString().trim();
+
+    if (selectedText.length > 0) {
+      const range = selection.getRangeAt(0);
+      const rect = range.getBoundingClientRect();
+
+      button.style.top = (window.scrollY + rect.top) + 'px';
+      button.style.left = (window.scrollX + rect.left) + 'px';
+      button.style.display = 'inline-block';
+
+      const buttonHeight = button.offsetHeight;
+      button.style.top = (window.scrollY + rect.top - buttonHeight - 8) + 'px';
+
+      button.onclick = function () {
+        window.location.href = "{% url 'add_entry' %}?name=" + encodeURIComponent(selectedText);
+      };
+    } else {
+      button.style.display = 'none';
+    }
+  });
+});
+</script>
+
+<!-- <script>
+                          // mouseup listens for when a mouse click is released
+document.addEventListener('mouseup', function(){
+    const button = document.getElementById('create-entry-btn');
+
+  const selection = window.getSelection();
+  const selectedText = window.getSelection().toString().trim(); // gives back a special selection object (the highlighted text), which is then converted to a string -->
+
+ <!-- // if (selectedText.length > 0) {
+ //   const range = selection.getRangeAt(0); // gets the actual range object — a precise reference to where in the page's HTML the selection starts and ends. It's the necessary middle step between "here's some selected text" and "here's exactly where that text sits on screen."
+ //   const rect = range.getBoundingClientRect(); // returns an object (called a DOMRect) describing the selection's position; all in pixels relative to the visible browser window. this is the data we'll use to position the floating button.
+  //  console.log("Highlighted text:", selectedText);
+  //  console.log("Position:", rect);
+  //}
+})
+</script> -->
+{% endblock %}
+
+

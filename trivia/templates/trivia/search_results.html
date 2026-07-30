@@ -1,0 +1,15 @@
+{% extends "trivia/base.html" %}
+
+{% block title %}Search{% endblock %}
+
+{% block content %}
+<h2>Search results for "{{ query }}"</h2>
+
+<ul class="entry-list">
+  {% for entry in entries %}
+    <li><a href="{% url 'entry_detail' entry.id %}">{{ entry.name }}</a></li>
+  {% endfor %}
+</ul>
+
+<a class="back-link" href="{% url 'home' %}">← Back to all entries</a>
+{% endblock %}

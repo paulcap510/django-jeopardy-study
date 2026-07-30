@@ -1,0 +1,16 @@
+{% extends "trivia/base.html" %}
+
+{% block title %}Edit {{ entry.name }}{% endblock %}
+
+{% block content %}
+<h2>Edit {{ entry.name }}</h2>
+
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <div class="actions">
+    <button class="btn" type="submit">Save</button>
+    <a class="btn btn-outline" href="{% url 'entry_detail' entry.id %}">Cancel</a>
+  </div>
+</form>
+{% endblock %}
