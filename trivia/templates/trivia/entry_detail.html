@@ -13,7 +13,7 @@
   </div>
 {% endif %}
 
-<div class="clue-box">{{ entry.content|render_links|linebreaksbr }}</div>
+<div class="clue-box">{{ entry.content|render_links:entry|linebreaksbr }}</div>
 
 <div class="actions">
   <a class="btn" href="{% url 'edit_entry' entry.id %}">Edit</a>
@@ -25,11 +25,17 @@
 
 <a class="back-link" href="{% url 'home' %}">&larr; Home</a>
 
-<button id="create-entry-btn" style="position: absolute; display: none; z-index: 1000;" class="btn">+ Create entry</button>
+<div id="create-entry-buttons" style="position: absolute; display: none; z-index: 1000; gap: 0.5rem;">
+  <button id="add-entry-btn" class="btn">+ Add Entry</button>
+  <button id="generate-entry-btn" class="btn">Generate with AI</button>
+</div>
+
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-  const button = document.getElementById('create-entry-btn');
+  const buttonGroup = document.getElementById('create-entry-buttons');
+  const addBtn = document.getElementById('add-entry-btn');
+  const generateBtn = document.getElementById('generate-entry-btn');
 
   document.addEventListener('mouseup', function () {
     const selection = window.getSelection();
@@ -39,22 +45,27 @@ document.addEventListener('DOMContentLoaded', function () {
       const range = selection.getRangeAt(0);
       const rect = range.getBoundingClientRect();
 
-      button.style.top = (window.scrollY + rect.top) + 'px';
-      button.style.left = (window.scrollX + rect.left) + 'px';
-      button.style.display = 'inline-block';
+      buttonGroup.style.top = (window.scrollY + rect.top) + 'px';
+      buttonGroup.style.left = (window.scrollX + rect.left) + 'px';
+      buttonGroup.style.display = 'flex';
 
-      const buttonHeight = button.offsetHeight;
-      button.style.top = (window.scrollY + rect.top - buttonHeight - 8) + 'px';
+      const groupHeight = buttonGroup.offsetHeight;
+      buttonGroup.style.top = (window.scrollY + rect.top - groupHeight - 8) + 'px';
 
-      button.onclick = function () {
+      addBtn.onclick = function () {
         window.location.href = "{% url 'add_entry' %}?name=" + encodeURIComponent(selectedText);
       };
+
+      generateBtn.onclick = function () {
+        window.location.href = "{% url 'generate_entry' %}?name=" + encodeURIComponent(selectedText);
+      };
     } else {
-      button.style.display = 'none';
+      buttonGroup.style.display = 'none';
     }
   });
 });
 </script>
+
 
 
 {% endblock %}

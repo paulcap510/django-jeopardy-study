@@ -4,6 +4,7 @@
 
 {% block content %}
 <h2>Generate a new entry with AI</h2>
+<p class="help-text">Type a topic and AI will draft a set of study facts for you.</p>
 
 {% if error %}
   <p class="help-text" style="color: #ff6b6b;">{{ error }}</p>
@@ -20,10 +21,18 @@
 
     <div class="generate-field">
       <label for="id_categories">Categories</label>
-      <input type="text" id="id_categories" name="categories_text" placeholder="Comma-separated, optional">
+      <input type="text" id="id_categories" name="categories_text" placeholder="e.g. Literature, Authors">
+    </div>
+
+    <div class="generate-field">
+      <label for="id_context">Context (optional)</label>
+      <input type="text" id="id_context" name="context" placeholder="e.g. the TV show, not the city">
+      <p class="help-text">If the topic could mean more than one thing, add a hint here. AI-generated facts should always be double-checked.</p>
     </div>
 
     <button class="btn" type="submit">Generate</button>
   </form>
 </div>
+
+<a class="back-link" href="{% url 'home' %}">&larr; Home</a>
 {% endblock %}

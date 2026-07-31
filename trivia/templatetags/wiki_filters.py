@@ -9,12 +9,14 @@ register = template.Library()
 
 
 @register.filter #registers the function specifically so it can be used inside templates, with the | syntax ({{ entry.content|render_links }})
-def render_links(content):
+def render_links(content, current_entry=None):
     safe_content = escape(content) #escape makes sure the browser does not treat the text as HTML
     entries = Entry.objects.all()
 
+     #! Looks for a pattern matching an entry in the safe_content
     for entry in entries:
-        #! Looks for a pattern matching an entry in the safe_content
+        if current_entry and entry.id == current_entry.id:
+            continue
         pattern = re.compile(r'\b' + re.escape(entry.name) + r'\b', re.IGNORECASE)         #re.escape regex pattern to ensure search matches; re.compile = compiles into usable regex
         url = reverse('entry_detail', args=[entry.id])
         link = f'<a class="wiki-link" href="{url}">{escape(entry.name)}</a>'

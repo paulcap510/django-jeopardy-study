@@ -82,12 +82,19 @@ def search_results(request):
     return render(request, 'trivia/search_results.html', {'entries': entries, 'query': query})
 
 
-
 def generate_entry(request):
     if request.method == 'POST':
         title = request.POST.get('title', '').strip()
+        context = request.POST.get('context', '').strip()
         categories_text = request.POST.get('categories_text', '')
         if title:
+            topic_description = f"'{title}' ({context})" if context else f"'{title}'"
+            prompt = (
+                f"Write 5-7 short factual bullet points about {topic_description} suitable for trivia study. "
+                f"If the topic could refer to more than one distinct thing, choose the single most relevant "
+                f"interpretation based on any context given, and write only about that. "
+                f"Return only the bullet points, one per line, starting each with a dash. No introduction or conclusion."
+            )
             try:
                 response = requests.post(
                     url="https://openrouter.ai/api/v1/chat/completions",
@@ -97,7 +104,7 @@ def generate_entry(request):
                     json={
                         "model": "openrouter/free",
                         "messages": [
-                            {"role": "user", "content": f"Write 5-7 short factual bullet points about '{title}' suitable for trivia study. Return only the bullet points, one per line, starting each with a dash. No introduction or conclusion."}
+                            {"role": "user", "content": prompt}
                         ]
                     },
                     timeout=30,
@@ -119,4 +126,5 @@ def generate_entry(request):
                     entry.categories.add(category)
             return redirect('entry_detail', entry_id=entry.id)
 
-    return render(request, 'trivia/generate_entry.html')
+    initial_title = request.GET.get('name', '')
+    return render(request, 'trivia/generate_entry.html', {'title': initial_title})

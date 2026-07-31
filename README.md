@@ -57,3 +57,8 @@ A personal trivia study wiki built with Django. Browse, search, and edit fact en
 - Add entries manually through the "Add Entry" form, or generate one automatically from a title using the "Generate" page.
 - Highlight any text on an entry's page to quickly create a new entry from it.
 - Browse by category or use the search bar to find entries.
+
+## Notes / Limitations
+
+- AI can make mistakes, so be sure to read over your AI-generated entries and fact check them.
+- AI-generated entries may be ambiguous if a topic name is shared by multiple distinct things (such as "Springfield" could refer to a US city or a fictional TV town from The Simpsons). Use a more specific name ("Springfield, IL", "Springfield, MA") or the optional context field when generating to get more accurate results.

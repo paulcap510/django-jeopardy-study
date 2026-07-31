@@ -11,7 +11,7 @@ class Category(models.Model):
 
 
 class Entry(models.Model):
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, unique=True)
     content = models.TextField(blank=True)
     categories = models.ManyToManyField(Category, related_name='entries', blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
