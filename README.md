@@ -57,6 +57,10 @@ A personal trivia study wiki built with Django. Browse, search, and edit fact en
 - Add entries manually through the "Add Entry" form, or generate one automatically from a title using the "Generate" page.
 - Highlight any text on an entry's page to quickly create a new entry from it.
 - Browse by category or use the search bar to find entries.
+-
+## Scope
+
+This is a personal, single-user tool built for individual study use, not intended for multiple users or public accounts. There's no login system, so anyone with access to the deployed URL can view and edit all entries.
 
 ## Notes / Limitations
 
