@@ -32,8 +32,7 @@ A personal trivia study wiki built with Django. Browse, search, and edit fact en
 
 3. Create a `.env` file in the project root (see `.env.example`) and add your OpenRouter API key:
 
-```
-OPENROUTER_API_KEY=your-key-here
+```OPENROUTER_API_KEY=your-key-here
 ```
 
 4. Run migrations:

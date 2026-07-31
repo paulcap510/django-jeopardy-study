@@ -5,9 +5,25 @@
 {% block content %}
 <h2>Generate a new entry with AI</h2>
 
-<form method="post">
-  {% csrf_token %}
-  <input type="text" name="title" placeholder="e.g. A Moveable Feast" required>
-  <button class="btn" type="submit">Generate</button>
-</form>
+{% if error %}
+  <p class="help-text" style="color: #ff6b6b;">{{ error }}</p>
+{% endif %}
+
+<div class="generate-card">
+  <form method="post">
+    {% csrf_token %}
+
+    <div class="generate-field">
+      <label for="id_title">Topic</label>
+      <input type="text" id="id_title" name="title" value="{{ title }}" placeholder="e.g. A Moveable Feast" required>
+    </div>
+
+    <div class="generate-field">
+      <label for="id_categories">Categories</label>
+      <input type="text" id="id_categories" name="categories_text" placeholder="Comma-separated, optional">
+    </div>
+
+    <button class="btn" type="submit">Generate</button>
+  </form>
+</div>
 {% endblock %}

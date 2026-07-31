@@ -116,6 +116,28 @@ h1, h2, h3 {
 }
 
 /* Entry list */
+.entry-categories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0.5rem 0 1rem;
+}
+
+.category-tag {
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.3rem 0.8rem;
+  border-radius: 999px;
+  background: rgba(255, 204, 0, 0.12);
+  border: 1px solid var(--jeopardy-gold);
+  color: var(--jeopardy-gold);
+  text-decoration: none;
+}
+
+.category-tag:hover {
+  background: rgba(255, 204, 0, 0.25);
+}
+
 .entry-list {
   list-style: none;
   margin: 1.5rem 0;
@@ -300,4 +322,38 @@ form textarea {
   display: inline-block;
   margin-top: 1.5rem;
   color: var(--jeopardy-gold);
+}
+
+
+
+/* Generate form */
+/* Generate form */
+.generate-card {
+  background: rgba(255, 255, 255, 0.04);
+  border: 2px solid var(--jeopardy-gold);
+  border-radius: 12px;
+  padding: 2rem;
+  margin-top: 1.5rem;
+  max-width: 500px;
+}
+
+.generate-field {
+  margin-bottom: 1.3rem;
+}
+
+.generate-field label {
+  display: block;
+  font-weight: 600;
+  color: var(--jeopardy-gold);
+  margin-bottom: 0.4rem;
+  font-size: 0.95rem;
+}
+
+.generate-field input[type="text"] {
+  width: 100%;
+}
+
+.generate-card .btn {
+  width: 100%;
+  text-align: center;
 }

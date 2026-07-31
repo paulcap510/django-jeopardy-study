@@ -6,7 +6,7 @@ import requests
 from django.conf import settings
 
 def home(request):
-    entries = Entry.objects.all()
+    entries = Entry.objects.all().order_by('-created_at')
     categories = Category.objects.all()
     return render(request, 'trivia/home.html', {'entries': entries, 'categories': categories})
 
@@ -86,22 +86,37 @@ def search_results(request):
 def generate_entry(request):
     if request.method == 'POST':
         title = request.POST.get('title', '').strip()
+        categories_text = request.POST.get('categories_text', '')
         if title:
-            response = requests.post(
-                url="https://openrouter.ai/api/v1/chat/completions",
-                headers={
-                    "Authorization": f"Bearer {settings.OPENROUTER_API_KEY}",
-                },
-                json={
-                    "model": "openrouter/free",
-                    "messages": [
-                        {"role": "user", "content": f"Write 5-7 short factual bullet points about '{title}' suitable for trivia study. Return only the bullet points, one per line, starting each with a dash. No introduction or conclusion."}
-                    ]
-                }
-            )
-            data = response.json()
-            content = data['choices'][0]['message']['content']
+            try:
+                response = requests.post(
+                    url="https://openrouter.ai/api/v1/chat/completions",
+                    headers={
+                        "Authorization": f"Bearer {settings.OPENROUTER_API_KEY}",
+                    },
+                    json={
+                        "model": "openrouter/free",
+                        "messages": [
+                            {"role": "user", "content": f"Write 5-7 short factual bullet points about '{title}' suitable for trivia study. Return only the bullet points, one per line, starting each with a dash. No introduction or conclusion."}
+                        ]
+                    },
+                    timeout=30,
+                )
+                response.raise_for_status()
+                data = response.json()
+                content = data['choices'][0]['message']['content']
+            except (requests.RequestException, KeyError, IndexError):
+                return render(request, 'trivia/generate_entry.html', {
+                    'error': 'Something went wrong generating this entry. Please try again.',
+                    'title': title,
+                })
 
             entry = Entry.objects.create(name=title, content=content)
+            for raw_name in categories_text.split(','):
+                name = raw_name.strip()
+                if name:
+                    category, _ = Category.objects.get_or_create(name=name)
+                    entry.categories.add(category)
             return redirect('entry_detail', entry_id=entry.id)
+
     return render(request, 'trivia/generate_entry.html')

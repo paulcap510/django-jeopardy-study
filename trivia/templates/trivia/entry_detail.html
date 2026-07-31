@@ -5,6 +5,14 @@
 
 {% block content %}
 <h2>{{ entry.name }}</h2>
+{% if entry.categories.all %}
+  <div class="entry-categories">
+    {% for category in entry.categories.all %}
+      <a href="{% url 'category_entries' category.id %}" class="category-tag">{{ category.name }}</a>
+    {% endfor %}
+  </div>
+{% endif %}
+
 <div class="clue-box">{{ entry.content|render_links|linebreaksbr }}</div>
 
 <div class="actions">
@@ -48,22 +56,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 </script>
 
-<!-- <script>
-                          // mouseup listens for when a mouse click is released
-document.addEventListener('mouseup', function(){
-    const button = document.getElementById('create-entry-btn');
 
-  const selection = window.getSelection();
-  const selectedText = window.getSelection().toString().trim(); // gives back a special selection object (the highlighted text), which is then converted to a string -->
-
- <!-- // if (selectedText.length > 0) {
- //   const range = selection.getRangeAt(0); // gets the actual range object — a precise reference to where in the page's HTML the selection starts and ends. It's the necessary middle step between "here's some selected text" and "here's exactly where that text sits on screen."
- //   const rect = range.getBoundingClientRect(); // returns an object (called a DOMRect) describing the selection's position; all in pixels relative to the visible browser window. this is the data we'll use to position the floating button.
-  //  console.log("Highlighted text:", selectedText);
-  //  console.log("Position:", rect);
-  //}
-})
-</script> -->
 {% endblock %}
 
 
