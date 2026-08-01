@@ -18,4 +18,5 @@ urlpatterns = [
     path('api/categories/<int:category_id>/', views.api_category_entries, name='api_category_entries'),
     path('api/search/', views.api_search_results, name='api_search_results'),
     path('api/entries/generate/', views.api_generate_entry, name='api_generate_entry'),
+    path('api/entries/<int:entry_id>/', views.api_entry_detail, name='api_entry_detail'),
 ]
