@@ -4,7 +4,9 @@ import EntryDetail from './components/EntryDetail'
 import AddEntry from './components/AddEntry'
 import EditEntry from './components/EditEntry'
 import SearchComponent from './components/SearchComponent'
+import SearchPage from './components/SearchPage'
 import GenerateEntry from './components/GenerateEntry'
+
 
 function App() {
   return (
@@ -14,7 +16,7 @@ function App() {
         <Route path="/entries/add" element={<AddEntry />} />
         <Route path="/entries/:id" element={<EntryDetail />} />
         <Route path="/entries/:id/edit" element={<EditEntry />} />
-        <Route path="/entries/search" element={<SearchComponent />} />
+        <Route path="/search" element={<SearchPage />} />
         <Route path="/entries/generate" element={<GenerateEntry />} />
 
 

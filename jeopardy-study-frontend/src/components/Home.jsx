@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import SearchComponent from './SearchComponent'
+import './Home.css'
 
 function Home() {
   const [entries, setEntries] = useState([]);
@@ -11,16 +13,23 @@ function Home() {
   }, []);
 
   return (
-    <>
-      <h1>Jeopardy Study</h1>
-      <ul>
-        {entries.map(entry => (
+    <div className="page">
+      <h1 className="site-title">Jeopardy! Study</h1>
+      <SearchComponent />
+      <ul className="entry-grid">
+        {entries.map((entry, index) => (
           <li key={entry.id}>
-            <Link to={`/entries/${entry.id}`}>{entry.name}</Link>
+            <Link
+              to={`/entries/${entry.id}`}
+              className="entry-tile"
+              style={{ animationDelay: `${index * 0.05}s` }}
+            >
+              {entry.name}
+            </Link>
           </li>
         ))}
       </ul>
-    </>
+    </div>
   )
 }
 
