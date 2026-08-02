@@ -6,6 +6,7 @@ import EditEntry from './components/EditEntry'
 import SearchComponent from './components/SearchComponent'
 import SearchPage from './components/SearchPage'
 import GenerateEntry from './components/GenerateEntry'
+import CategoryEntry from './components/CategoryEntry'
 
 
 function App() {
@@ -18,8 +19,7 @@ function App() {
         <Route path="/entries/:id/edit" element={<EditEntry />} />
         <Route path="/search" element={<SearchPage />} />
         <Route path="/entries/generate" element={<GenerateEntry />} />
-
-
+        <Route path="/categories/:id" element={<CategoryEntry />} />
       </Routes>
     </BrowserRouter>
   )
