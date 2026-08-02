@@ -65,25 +65,27 @@ function EntryDetail() {
         <h1 className="entry-title">{entry.name}</h1>
 
         {entry.categories.length > 0 && (
-          <div className="entry-categories">
-            {entry.categories.map(category => {
-              const color = colorForCategory(category.name);
-              return (
-                <span
-                  key={category.id}
-                  className="category-tag"
-                  style={{
-                    background: color.bg,
-                    borderColor: color.border,
-                    color: color.text,
-                  }}
-                >
-                  {category.name}
-                </span>
-              );
-            })}
-          </div>
-        )}
+  <div className="entry-categories">
+    {entry.categories.map(category => {
+      const color = colorForCategory(category.name);
+      return (
+        <Link
+          key={category.id}
+          to={`/categories/${category.id}`}
+          className="category-tag"
+          style={{
+            background: color.bg,
+            borderColor: color.border,
+            color: color.text,
+          }}
+        >
+          {category.name}
+        </Link>
+      );
+    })}
+  </div>
+)}
+
 
         {facts ? (
           <ul className="fact-list">
