@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import './EntryDetail.css';
-import { API_URL, ADMIN_KEY } from '../api';
+import { API_URL, ADMIN_KEY, isAdmin } from '../api';
 
 const CATEGORY_COLORS = [
   { bg: 'rgba(255, 204, 0, 0.12)', border: '#ffcc00', text: '#ffcc00' },
@@ -186,10 +186,21 @@ function EntryDetail() {
         )}
 
         <div className="entry-actions">
-          <Link to={`/entries/${id}/edit`} className="btn">
+          <Link
+            to={isAdmin ? `/entries/${id}/edit` : '#'}
+            className={`btn ${!isAdmin ? 'btn-disabled' : ''}`}
+            onClick={(e) => {
+              if (!isAdmin) e.preventDefault();
+            }}
+            title={!isAdmin ? 'Authorized users only' : ''}
+          >
             Edit
           </Link>
-          <button onClick={handleDelete} className="btn btn-danger">
+          <button
+            onClick={isAdmin ? handleDelete : undefined}
+            className={`btn btn-danger ${!isAdmin ? 'btn-disabled' : ''}`}
+            title={!isAdmin ? 'Authorized users only' : ''}
+          >
             Delete
           </button>
         </div>

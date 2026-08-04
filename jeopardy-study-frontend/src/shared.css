@@ -213,3 +213,13 @@
   z-index: -1;
   background-color: #3a4de0;
 }
+
+.btn-disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.btn-disabled:hover {
+  transform: none;
+  box-shadow: 0 3px 0 var(--jeopardy-gold-dark);
+}
