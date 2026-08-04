@@ -38,3 +38,12 @@
 .navbar-links a:hover {
   color: var(--jeopardy-gold);
 }
+
+.nav-link-disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.nav-link-disabled:hover {
+  color: var(--clue-white) !important;
+}

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import SearchComponent from './SearchComponent';
 import './Home.css';
-import { API_URL } from '../api';
+import { API_URL, isAdmin } from '../api';
 
 const ITEMS_PER_PAGE = 12;
 
@@ -50,7 +50,14 @@ function Home() {
       <SearchComponent />
 
       <div className="add-entry-link">
-        <Link to="/entries/add" className="btn">
+        <Link
+          to={isAdmin ? '/entries/add' : '#'}
+          className={`btn ${!isAdmin ? 'btn-disabled' : ''}`}
+          onClick={(e) => {
+            if (!isAdmin) e.preventDefault();
+          }}
+          title={!isAdmin ? 'Authorized users only' : ''}
+        >
           + Add New Entry
         </Link>
       </div>
