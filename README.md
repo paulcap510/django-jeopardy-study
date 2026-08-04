@@ -2,7 +2,7 @@
 
 A personal trivia study wiki built with Django and React. Browse, search, and edit fact entries on any topic, with AI-assisted entry generation and automatic linking between related topics.
 
-**Live app:** https://jeopardy-study-frontend.onrender.com
+**Live app:** https://django-jeopardy-study-frontend.onrender.com
 
 Note: the backend service is currently suspended to save resources. The frontend will show empty data until it's resumed from the Render dashboard.
 
