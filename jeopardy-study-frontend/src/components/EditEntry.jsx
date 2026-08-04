@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import './EditEntry.css';
-import { API_URL } from '../api';
+import { API_URL, ADMIN_KEY } from '../api';
 
 function EditEntry() {
   const { id } = useParams();
@@ -37,7 +37,7 @@ function EditEntry() {
 
     fetch(`${API_URL}/api/entries/${id}/edit/`, {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', 'X-Admin-Key': ADMIN_KEY },
       body: JSON.stringify(formData),
     })
       .then((res) => res.json())

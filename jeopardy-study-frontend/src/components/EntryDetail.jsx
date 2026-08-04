@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import './EntryDetail.css';
-import { API_URL } from '../api';
+import { API_URL, ADMIN_KEY } from '../api';
 
 const CATEGORY_COLORS = [
   { bg: 'rgba(255, 204, 0, 0.12)', border: '#ffcc00', text: '#ffcc00' },
@@ -95,6 +95,9 @@ function EntryDetail() {
 
     fetch(`${API_URL}/api/entries/${id}/delete/`, {
       method: 'DELETE',
+      headers: {
+        'X-Admin-Key': ADMIN_KEY,
+      },
     }).then(() => {
       navigate('/');
     });

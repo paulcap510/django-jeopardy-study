@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, Link, useSearchParams } from 'react-router-dom';
 import './EditEntry.css';
-import { API_URL } from '../api';
+import { API_URL, ADMIN_KEY } from '../api';
 
 function AddEntry() {
   const navigate = useNavigate();
@@ -24,7 +24,10 @@ function AddEntry() {
 
     fetch(`${API_URL}/api/entries/add/`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Admin-Key': ADMIN_KEY,
+      },
       body: JSON.stringify(formData),
     })
       .then((res) => res.json())

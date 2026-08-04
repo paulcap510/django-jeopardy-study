@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, useSearchParams, Link } from 'react-router-dom';
 import './EditEntry.css';
-import { API_URL } from '../api';
+import { API_URL, ADMIN_KEY } from '../api';
 
 function GenerateEntry() {
   const navigate = useNavigate();
@@ -28,7 +28,7 @@ function GenerateEntry() {
 
     fetch(`${API_URL}/api/entries/generate/`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', 'X-Admin-Key': ADMIN_KEY },
       body: JSON.stringify(formData),
     })
       .then((res) => res.json().then((data) => ({ status: res.status, data })))

@@ -9,37 +9,52 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .serializers import EntrySerializer, CategorySerializer
 
-@api_view(['GET'])
+
+def check_admin_key(request):
+    return request.headers.get("X-Admin-Key") == settings.ADMIN_SECRET_KEY
+
+
+@api_view(["GET"])
 def api_home(request):
-    entries = Entry.objects.all().order_by('-created_at')
+    entries = Entry.objects.all().order_by("-created_at")
     serializer = EntrySerializer(entries, many=True)
     return Response(serializer.data)
 
+
 def home(request):
-    entries = Entry.objects.all().order_by('-created_at')
+    entries = Entry.objects.all().order_by("-created_at")
     categories = Category.objects.all()
-    return render(request, 'trivia/home.html', {'entries': entries, 'categories': categories})
+    return render(
+        request, "trivia/home.html", {"entries": entries, "categories": categories}
+    )
+
 
 def category_entries(request, category_id):
     category = get_object_or_404(Category, id=category_id)
     entries = category.entries.all()
-    return render(request, 'trivia/category_entries.html', {'category': category, 'entries': entries})
+    return render(
+        request,
+        "trivia/category_entries.html",
+        {"category": category, "entries": entries},
+    )
 
-@api_view(['GET'])
+
+@api_view(["GET"])
 def api_categories(request):
     categories = Category.objects.all()
     serializer = CategorySerializer(categories, many=True)
     return Response(serializer.data)
 
-@api_view(['GET'])
+
+@api_view(["GET"])
 def api_category_entries(request, category_id):
     category = get_object_or_404(Category, id=category_id)
-    entries = category.entries.all().order_by('-created_at')
+    entries = category.entries.all().order_by("-created_at")
     serializer = EntrySerializer(entries, many=True)
     return Response(serializer.data)
 
 
-@api_view(['GET'])
+@api_view(["GET"])
 def api_entry_detail(request, entry_id):
     entry = get_object_or_404(Entry, id=entry_id)
     serializer = EntrySerializer(entry)
@@ -48,25 +63,33 @@ def api_entry_detail(request, entry_id):
 
 def entry_detail(request, entry_id):
     entry = get_object_or_404(Entry, id=entry_id)
-    return render(request, 'trivia/entry_detail.html', {'entry': entry})
+    return render(request, "trivia/entry_detail.html", {"entry": entry})
+
 
 def delete_entry(request, entry_id):
     entry = get_object_or_404(Entry, id=entry_id)
-    if request.method == 'POST':
+    if request.method == "POST":
         entry.delete()
 
-        return redirect('/?deleted=1')
-    return redirect('home')
+        return redirect("/?deleted=1")
+    return redirect("home")
 
 
-@api_view(['DELETE'])
+@api_view(["DELETE"])
 def api_delete_entry(request, entry_id):
+    if not check_admin_key(request):
+        return Response({"error": "Unauthorized"}, status=401)
+
     entry = get_object_or_404(Entry, id=entry_id)
     entry.delete()
     return Response(status=status.HTTP_204_NO_CONTENT)
 
-@api_view(['POST'])
+
+@api_view(["POST"])
 def api_add_entry(request):
+    if not check_admin_key(request):
+        return Response({"error": "Unauthorized"}, status=401)
+
     serializer = EntrySerializer(data=request.data)
     if serializer.is_valid():
         entry = serializer.save()
@@ -75,11 +98,11 @@ def api_add_entry(request):
 
 
 def add_entry(request):
-    if request.method == 'POST':
+    if request.method == "POST":
         form = EntryForm(request.POST)
         if form.is_valid():
             entry = form.save()
-            names = form.cleaned_data['categories_text'].split(',')
+            names = form.cleaned_data["categories_text"].split(",")
             for raw_name in names:
                 name = raw_name.strip()
                 if not name:
@@ -88,34 +111,37 @@ def add_entry(request):
                 if not category:
                     category = Category.objects.create(name=name)
                 entry.categories.add(category)
-            return redirect('entry_detail', entry_id=entry.id)
+            return redirect("entry_detail", entry_id=entry.id)
     else:
-        initial_name = request.GET.get('name', '')
-        form = EntryForm(initial={'name': initial_name})
-    return render(request, 'trivia/add_entry.html', {'form': form})
+        initial_name = request.GET.get("name", "")
+        form = EntryForm(initial={"name": initial_name})
+    return render(request, "trivia/add_entry.html", {"form": form})
 
 
 def edit_entry(request, entry_id):
     entry = get_object_or_404(Entry, id=entry_id)
-    if request.method == 'POST':
+    if request.method == "POST":
         form = EntryForm(request.POST, instance=entry)
         if form.is_valid():
             entry = form.save()
             entry.categories.clear()
-            for raw_name in form.cleaned_data['categories_text'].split(','):
+            for raw_name in form.cleaned_data["categories_text"].split(","):
                 name = raw_name.strip()
                 if name:
                     category, _ = Category.objects.get_or_create(name=name)
                     entry.categories.add(category)
-            return redirect('entry_detail', entry_id=entry.id)
+            return redirect("entry_detail", entry_id=entry.id)
     else:
-        existing_names = ', '.join(c.name for c in entry.categories.all())
-        form = EntryForm(instance=entry, initial={'categories_text': existing_names})
-    return render(request, 'trivia/edit_entry.html', {'form': form, 'entry': entry})
+        existing_names = ", ".join(c.name for c in entry.categories.all())
+        form = EntryForm(instance=entry, initial={"categories_text": existing_names})
+    return render(request, "trivia/edit_entry.html", {"form": form, "entry": entry})
 
 
-@api_view(['PUT'])
+@api_view(["PUT"])
 def api_edit_entry(request, entry_id):
+    if not check_admin_key(request):
+        return Response({"error": "Unauthorized"}, status=401)
+
     entry = get_object_or_404(Entry, id=entry_id)
     serializer = EntrySerializer(entry, data=request.data)
     if serializer.is_valid():
@@ -123,9 +149,10 @@ def api_edit_entry(request, entry_id):
         return Response(EntrySerializer(entry).data)
     return Response(serializer.errors, status=400)
 
-@api_view(['GET'])
+
+@api_view(["GET"])
 def api_search_results(request):
-    query = request.GET.get('q', '')
+    query = request.GET.get("q", "")
     if query:
         entries = Entry.objects.filter(
             Q(name__icontains=query) | Q(content__icontains=query)
@@ -137,26 +164,29 @@ def api_search_results(request):
 
 
 def search_results(request):
-    query = request.GET.get('q', '')
+    query = request.GET.get("q", "")
     if query:
         entries = Entry.objects.filter(
             Q(name__icontains=query) | Q(content__icontains=query)
         )
     else:
         entries = Entry.objects.none()
-    return render(request, 'trivia/search_results.html', {'entries': entries, 'query': query})
+    return render(
+        request, "trivia/search_results.html", {"entries": entries, "query": query}
+    )
 
 
-
-
-@api_view(['POST'])
+@api_view(["POST"])
 def api_generate_entry(request):
-    title = request.data.get('title', '').strip()
-    context = request.data.get('context', '').strip()
-    categories_text = request.data.get('categories_text', '')
+    if not check_admin_key(request):
+        return Response({"error": "Unauthorized"}, status=401)
+
+    title = request.data.get("title", "").strip()
+    context = request.data.get("context", "").strip()
+    categories_text = request.data.get("categories_text", "")
 
     if not title:
-        return Response({'error': 'Title is required.'}, status=400)
+        return Response({"error": "Title is required."}, status=400)
 
     topic_description = f"'{title}' ({context})" if context else f"'{title}'"
     prompt = (
@@ -174,20 +204,21 @@ def api_generate_entry(request):
             },
             json={
                 "model": "openrouter/free",
-                "messages": [
-                    {"role": "user", "content": prompt}
-                ]
+                "messages": [{"role": "user", "content": prompt}],
             },
             timeout=30,
         )
         response.raise_for_status()
         data = response.json()
-        content = data['choices'][0]['message']['content']
+        content = data["choices"][0]["message"]["content"]
     except (requests.RequestException, KeyError, IndexError):
-        return Response({'error': 'Something went wrong generating this entry. Please try again.'}, status=502)
+        return Response(
+            {"error": "Something went wrong generating this entry. Please try again."},
+            status=502,
+        )
 
     entry = Entry.objects.create(name=title, content=content)
-    for raw_name in categories_text.split(','):
+    for raw_name in categories_text.split(","):
         name = raw_name.strip()
         if name:
             category, _ = Category.objects.get_or_create(name=name)
@@ -197,10 +228,10 @@ def api_generate_entry(request):
 
 
 def generate_entry(request):
-    if request.method == 'POST':
-        title = request.POST.get('title', '').strip()
-        context = request.POST.get('context', '').strip()
-        categories_text = request.POST.get('categories_text', '')
+    if request.method == "POST":
+        title = request.POST.get("title", "").strip()
+        context = request.POST.get("context", "").strip()
+        categories_text = request.POST.get("categories_text", "")
         if title:
             topic_description = f"'{title}' ({context})" if context else f"'{title}'"
             prompt = (
@@ -217,28 +248,30 @@ def generate_entry(request):
                     },
                     json={
                         "model": "openrouter/free",
-                        "messages": [
-                            {"role": "user", "content": prompt}
-                        ]
+                        "messages": [{"role": "user", "content": prompt}],
                     },
                     timeout=30,
                 )
                 response.raise_for_status()
                 data = response.json()
-                content = data['choices'][0]['message']['content']
+                content = data["choices"][0]["message"]["content"]
             except (requests.RequestException, KeyError, IndexError):
-                return render(request, 'trivia/generate_entry.html', {
-                    'error': 'Something went wrong generating this entry. Please try again.',
-                    'title': title,
-                })
+                return render(
+                    request,
+                    "trivia/generate_entry.html",
+                    {
+                        "error": "Something went wrong generating this entry. Please try again.",
+                        "title": title,
+                    },
+                )
 
             entry = Entry.objects.create(name=title, content=content)
-            for raw_name in categories_text.split(','):
+            for raw_name in categories_text.split(","):
                 name = raw_name.strip()
                 if name:
                     category, _ = Category.objects.get_or_create(name=name)
                     entry.categories.add(category)
-            return redirect('entry_detail', entry_id=entry.id)
+            return redirect("entry_detail", entry_id=entry.id)
 
-    initial_title = request.GET.get('name', '')
-    return render(request, 'trivia/generate_entry.html', {'title': initial_title})
+    initial_title = request.GET.get("name", "")
+    return render(request, "trivia/generate_entry.html", {"title": initial_title})

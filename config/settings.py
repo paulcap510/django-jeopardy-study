@@ -14,6 +14,7 @@ from pathlib import Path
 import os
 from dotenv import load_dotenv
 import dj_database_url
+from corsheaders.defaults import default_headers
 
 load_dotenv()
 OPENROUTER_API_KEY = os.environ.get("OPENROUTER_API_KEY")
@@ -32,6 +33,8 @@ SECRET_KEY = os.environ.get("SECRET_KEY", "django-insecure-somelonghardcodedstri
 # DEBUG = True
 
 DEBUG = os.environ.get("DEBUG", "True") == "True"
+
+ADMIN_SECRET_KEY = os.environ.get("ADMIN_SECRET_KEY", "")
 
 ALLOWED_HOSTS = ["django-jeopardy-study.onrender.com", "localhost", "127.0.0.1"]
 
@@ -66,6 +69,10 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://localhost:5174",
     "https://django-jeopardy-study-frontend.onrender.com",
+]
+
+CORS_ALLOW_HEADERS = list(default_headers) + [
+    "x-admin-key",
 ]
 
 ROOT_URLCONF = "config.urls"
