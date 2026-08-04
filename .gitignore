@@ -7,3 +7,6 @@ TODO.txt
 db.sqlite3
 venv
 .claude
+
+jeopardy-study-frontend/.env
+jeopardy-study-frontend/.env.production
