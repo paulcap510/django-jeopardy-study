@@ -4,12 +4,24 @@ import { API_URL } from '../api';
 
 function AllCategories() {
   const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetch(`${API_URL}/api/categories/`)
       .then((res) => res.json())
-      .then((data) => setCategories(data));
+      .then((data) => {
+        setCategories(data);
+        setLoading(false);
+      });
   }, []);
+
+  if (loading) {
+    return (
+      <div className="page">
+        <p className="loading-text">Loading...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="page">
