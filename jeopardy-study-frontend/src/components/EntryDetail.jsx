@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import './EntryDetail.css';
+import { API_URL } from '../api';
 
 const CATEGORY_COLORS = [
   { bg: 'rgba(255, 204, 0, 0.12)', border: '#ffcc00', text: '#ffcc00' },
@@ -79,12 +80,12 @@ function EntryDetail() {
   const [selection, setSelection] = useState(null);
 
   useEffect(() => {
-    fetch(`http://127.0.0.1:8000/api/entries/${id}/`)
+    fetch(`${API_URL}/api/entries/${id}/`)
       .then((res) => res.json())
       .then((data) => setEntry(data));
   }, [id]);
   useEffect(() => {
-    fetch(`http://127.0.0.1:8000/api/entries/`)
+    fetch(`${API_URL}/api/entries/`)
       .then((res) => res.json())
       .then((data) => setAllEntries(data));
   }, [id]);
@@ -92,7 +93,7 @@ function EntryDetail() {
   const handleDelete = () => {
     if (!window.confirm('Delete this entry?')) return;
 
-    fetch(`http://127.0.0.1:8000/api/entries/${id}/delete/`, {
+    fetch(`${API_URL}/api/entries/${id}/delete/`, {
       method: 'DELETE',
     }).then(() => {
       navigate('/');

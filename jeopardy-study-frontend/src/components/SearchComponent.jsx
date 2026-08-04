@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import './SearchComponent.css'
+import { API_URL } from '../api';
 
 function SearchComponent() {
   const [query, setQuery] = useState('');
@@ -13,7 +14,7 @@ function SearchComponent() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    fetch(`http://127.0.0.1:8000/api/search/?q=${encodeURIComponent(query)}`)
+    fetch(`${API_URL}/api/search/?q=${encodeURIComponent(query)}`)
       .then(res => res.json())
       .then(data => setResults(data));
   }

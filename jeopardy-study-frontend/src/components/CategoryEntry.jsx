@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import './CategoryEntry.css'
+import { API_URL } from '../api';
 
 function CategoryEntry() {
   const { id } = useParams();
@@ -9,14 +10,14 @@ function CategoryEntry() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('http://127.0.0.1:8000/api/categories/')
+    fetch(`${API_URL}/api/categories/`)
       .then(res => res.json())
       .then(data => {
         const match = data.find(cat => cat.id === Number(id));
         setCategoryName(match ? match.name : 'Category');
       });
 
-    fetch(`http://127.0.0.1:8000/api/categories/${id}/`)
+    fetch(`${API_URL}/api/categories/${id}/`)
       .then(res => res.json())
       .then(data => {
         setEntries(data);

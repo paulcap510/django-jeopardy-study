@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
 import './EditEntry.css'
+import { API_URL } from '../api';
 
 function EditEntry() {
   const { id } = useParams();
@@ -14,7 +15,7 @@ function EditEntry() {
   });
 
   useEffect(() => {
-    fetch(`http://127.0.0.1:8000/api/entries/${id}/`)
+    fetch(`${API_URL}/api/entries/${id}/`)
       .then(res => res.json())
       .then(data => {
         setEntry(data);
@@ -34,7 +35,7 @@ function EditEntry() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    fetch(`http://127.0.0.1:8000/api/entries/${id}/edit/`, {
+    fetch(`${API_URL}/api/entries/${id}/edit/`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(formData),

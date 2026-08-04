@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, Link, useSearchParams } from 'react-router-dom';
 import './EditEntry.css';
+import { API_URL } from '../api';
 
 function AddEntry() {
   const navigate = useNavigate();
@@ -21,7 +22,7 @@ function AddEntry() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    fetch('http://127.0.0.1:8000/api/entries/add/', {
+    fetch(`${API_URL}/api/entries/add/`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(formData),

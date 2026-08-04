@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, useSearchParams, Link } from 'react-router-dom';
 import './EditEntry.css';
+import { API_URL } from '../api';
 
 function GenerateEntry() {
   const navigate = useNavigate();
@@ -25,7 +26,7 @@ function GenerateEntry() {
     setLoading(true);
     setError('');
 
-    fetch('http://127.0.0.1:8000/api/entries/generate/', {
+    fetch(`${API_URL}/api/entries/generate/`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(formData),

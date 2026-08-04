@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import { API_URL } from '../api';
 
 function AllEntries() {
   const [entries, setEntries] = useState([]);
 
   useEffect(() => {
-    fetch('http://127.0.0.1:8000/api/entries/')
+    fetch(`${API_URL}/api/entries/`)
       .then(res => res.json())
       .then(data => setEntries(data));
   }, []);

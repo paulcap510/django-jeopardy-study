@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import SearchComponent from './SearchComponent';
 import './Home.css';
+import { API_URL } from '../api';
 
 const ITEMS_PER_PAGE = 12;
 
@@ -12,11 +13,11 @@ function Home() {
   const [categoryPage, setCategoryPage] = useState(1);
 
   useEffect(() => {
-    fetch('http://127.0.0.1:8000/api/entries/')
+    fetch(`${API_URL}/api/entries/`)
       .then((res) => res.json())
       .then((data) => setEntries(data));
 
-    fetch('http://127.0.0.1:8000/api/categories/')
+    fetch(`${API_URL}/api/categories/`)
       .then((res) => res.json())
       .then((data) => setCategories(data));
   }, []);
