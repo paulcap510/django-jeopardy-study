@@ -11,16 +11,27 @@ function Home() {
   const [categories, setCategories] = useState([]);
   const [entryPage, setEntryPage] = useState(1);
   const [categoryPage, setCategoryPage] = useState(1);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`${API_URL}/api/entries/`)
-      .then((res) => res.json())
-      .then((data) => setEntries(data));
-
-    fetch(`${API_URL}/api/categories/`)
-      .then((res) => res.json())
-      .then((data) => setCategories(data));
+    Promise.all([
+      fetch(`${API_URL}/api/entries/`).then((res) => res.json()),
+      fetch(`${API_URL}/api/categories/`).then((res) => res.json()),
+    ]).then(([entriesData, categoriesData]) => {
+      setEntries(entriesData);
+      setCategories(categoriesData);
+      setLoading(false);
+    });
   }, []);
+
+  if (loading) {
+    return (
+      <div className="page">
+        <h1 className="site-title">Jeopardy! Study</h1>
+        <p className="loading-text">Loading...</p>
+      </div>
+    );
+  }
 
   const totalEntryPages = Math.ceil(entries.length / ITEMS_PER_PAGE);
   const entryStart = (entryPage - 1) * ITEMS_PER_PAGE;
