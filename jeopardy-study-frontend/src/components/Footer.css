@@ -1,0 +1,75 @@
+.footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 2rem;
+  padding: 2rem 1.5rem;
+  background: var(--jeopardy-blue-darker);
+  border-top: 3px solid var(--jeopardy-gold);
+  color: var(--clue-white);
+}
+
+.footer-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.footer-title {
+  font-family: 'Anton', 'Arial Black', sans-serif;
+  letter-spacing: 0.05em;
+  color: var(--jeopardy-gold);
+  font-size: 1.1rem;
+}
+
+.footer-email {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--clue-white);
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.footer-email:hover {
+  color: var(--jeopardy-gold);
+}
+
+.footer-socials {
+  flex-direction: row;
+  align-items: center;
+  gap: 1.2rem;
+}
+
+.footer-socials a {
+  color: var(--clue-white);
+  font-size: 1.3rem;
+  transition: color 0.15s ease;
+}
+
+.footer-socials a:hover {
+  color: var(--jeopardy-gold);
+}
+
+.footer-links {
+  flex-direction: row;
+  gap: 3rem;
+}
+
+.footer-column {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.footer-column a {
+  color: var(--clue-white);
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.15s ease;
+}
+
+.footer-column a:hover {
+  color: var(--jeopardy-gold);
+}

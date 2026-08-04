@@ -1,0 +1,40 @@
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem 1.5rem;
+  background: var(--jeopardy-blue-darker);
+  border-bottom: 3px solid var(--jeopardy-gold);
+}
+
+.navbar-title {
+  font-family: 'Anton', 'Arial Black', sans-serif;
+  letter-spacing: 0.05em;
+  font-size: 1.5rem;
+  color: var(--jeopardy-gold);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.navbar-links {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.navbar-links a {
+  color: var(--clue-white);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: color 0.15s ease;
+}
+
+.navbar-links a:hover {
+  color: var(--jeopardy-gold);
+}
