@@ -107,3 +107,21 @@
   text-decoration-color: #ffe066;
   text-decoration-thickness: 2px;
 }
+
+.selection-buttons {
+  position: absolute;
+  display: flex;
+  gap: 0.5rem;
+  z-index: 1000;
+}
+
+.selection-buttons button {
+  font-family: 'Anton', 'Arial Black', sans-serif;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  border: 2px solid var(--jeopardy-gold);
+  background: var(--jeopardy-gold);
+  color: var(--jeopardy-blue-darker);
+  cursor: pointer;
+  box-shadow: 0 3px 0 var(--jeopardy-gold-dark);
+}

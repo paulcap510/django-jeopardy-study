@@ -1,10 +1,14 @@
 import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useSearchParams } from 'react-router-dom';
+import './EditEntry.css';
 
 function AddEntry() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams(); //?
+  const initialName = searchParams.get('name') || '';
+
   const [formData, setFormData] = useState({
-    name: '',
+    name: initialName,
     content: '',
     categories_text: '',
   });

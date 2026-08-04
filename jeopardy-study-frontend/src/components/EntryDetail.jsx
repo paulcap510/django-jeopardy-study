@@ -76,6 +76,7 @@ function EntryDetail() {
   const navigate = useNavigate();
   const [entry, setEntry] = useState(null);
   const [allEntries, setAllEntries] = useState([]);
+  const [selection, setSelection] = useState(null);
 
   useEffect(() => {
     fetch(`http://127.0.0.1:8000/api/entries/${id}/`)
@@ -97,6 +98,29 @@ function EntryDetail() {
       navigate('/');
     });
   };
+
+  useEffect(() => {
+    const handleMouseUp = () => {
+      const sel = window.getSelection();
+      const text = sel.toString().trim();
+
+      if (text.length > 0) {
+        //! when selecting text with your mouse, your browser creates a 'range' object to determine where the selection starts and stops
+        const range = sel.getRangeAt(0); //! (0) gets the current selection
+        const rect = range.getBoundingClientRect();
+        setSelection({
+          text,
+          top: window.scrollY + rect.top,
+          left: window.scrollX + rect.left,
+        });
+      } else {
+        setSelection(null);
+      }
+    };
+
+    document.addEventListener('mouseup', handleMouseUp); // start listening for the mouse button release
+    return () => document.removeEventListener('mouseup', handleMouseUp);
+  });
 
   if (!entry) return <p>Loading...</p>;
 
@@ -159,6 +183,30 @@ function EntryDetail() {
           </button>
         </div>
       </div>
+
+      {selection && (
+        <div
+          className="selection-buttons"
+          style={{ top: selection.top - 50, left: selection.left }}
+        >
+          <button
+            onClick={() =>
+              navigate(
+                `/entries/add?name=${encodeURIComponent(selection.text)}`,
+              )
+            }
+          >
+            + Add Entry
+          </button>
+          <button
+            onClick={() =>
+              navigate(`/generate?name=${encodeURIComponent(selection.text)}`)
+            }
+          >
+            Generate with AI
+          </button>
+        </div>
+      )}
     </div>
   );
 }

@@ -20,7 +20,7 @@ function App() {
         <Route path="/entries/:id" element={<EntryDetail />} />
         <Route path="/entries/:id/edit" element={<EditEntry />} />
         <Route path="/search" element={<SearchPage />} />
-        <Route path="/entries/generate" element={<GenerateEntry />} />
+        <Route path="/generate" element={<GenerateEntry />} />
         <Route path="/categories/:id" element={<CategoryEntry />} />
         <Route path="/entries" element={<AllEntries />} />
         <Route path="/categories" element={<AllCategories />} />
