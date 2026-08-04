@@ -65,7 +65,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://localhost:3000",
     "http://localhost:5174",
-    "https://jeopardy-study-frontend.onrender.com",
+    "https://django-jeopardy-study-frontend.onrender.com",
 ]
 
 ROOT_URLCONF = "config.urls"
