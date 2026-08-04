@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react'
-import { useParams, Link } from 'react-router-dom'
-import './CategoryEntry.css'
+import { useState, useEffect } from 'react';
+import { useParams, Link } from 'react-router-dom';
+import './CategoryEntry.css';
 import { API_URL } from '../api';
 
 function CategoryEntry() {
@@ -11,25 +11,35 @@ function CategoryEntry() {
 
   useEffect(() => {
     fetch(`${API_URL}/api/categories/`)
-      .then(res => res.json())
-      .then(data => {
-        const match = data.find(cat => cat.id === Number(id));
+      .then((res) => res.json())
+      .then((data) => {
+        const match = data.find((cat) => cat.id === Number(id));
         setCategoryName(match ? match.name : 'Category');
       });
 
     fetch(`${API_URL}/api/categories/${id}/`)
-      .then(res => res.json())
-      .then(data => {
+      .then((res) => res.json())
+      .then((data) => {
         setEntries(data);
         setLoading(false);
       });
   }, [id]);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) {
+    return (
+      <div className="page">
+        <p style={{ textAlign: 'center' }}>Loading...</p>
+      </div>
+    );
+  }
+
+  // if (loading) return <p>Loading...</p>;
 
   return (
     <div className="page">
-      <Link to="/" className="back-link">← Back</Link>
+      <Link to="/" className="back-link">
+        ← Back
+      </Link>
       <h1 className="entry-title">{categoryName}</h1>
 
       <ul className="entry-grid">
@@ -46,7 +56,7 @@ function CategoryEntry() {
         ))}
       </ul>
     </div>
-  )
+  );
 }
 
-export default CategoryEntry
+export default CategoryEntry;

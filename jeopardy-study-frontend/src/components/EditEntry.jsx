@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react'
-import { useParams, useNavigate, Link } from 'react-router-dom'
-import './EditEntry.css'
+import { useState, useEffect } from 'react';
+import { useParams, useNavigate, Link } from 'react-router-dom';
+import './EditEntry.css';
 import { API_URL } from '../api';
 
 function EditEntry() {
@@ -11,18 +11,18 @@ function EditEntry() {
   const [formData, setFormData] = useState({
     name: '',
     content: '',
-    categories_text: ''
+    categories_text: '',
   });
 
   useEffect(() => {
     fetch(`${API_URL}/api/entries/${id}/`)
-      .then(res => res.json())
-      .then(data => {
+      .then((res) => res.json())
+      .then((data) => {
         setEntry(data);
         setFormData({
           name: data.name,
           content: data.content,
-          categories_text: data.categories.map(c => c.name).join(', ')
+          categories_text: data.categories.map((c) => c.name).join(', '),
         });
       });
   }, [id]);
@@ -30,7 +30,7 @@ function EditEntry() {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
-  }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -40,18 +40,27 @@ function EditEntry() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(formData),
     })
-      .then(res => res.json())
-      .then(data => {
+      .then((res) => res.json())
+      .then((data) => {
         navigate(`/entries/${data.id}`);
       });
-  }
+  };
 
-  if (!entry) return <p>Loading...</p>;
+  if (!entry) {
+    return (
+      <div className="page">
+        <p style={{ textAlign: 'center' }}>Loading...</p>
+      </div>
+    );
+  }
+  // if (!entry) return <p>Loading...</p>;
 
   return (
     <div className="page">
       <div className="entry-page-inner">
-        <Link to={`/entries/${id}`} className="back-link">← Back</Link>
+        <Link to={`/entries/${id}`} className="back-link">
+          ← Back
+        </Link>
         <h1 className="entry-title">Edit entry</h1>
 
         <div className="form-card">
@@ -90,12 +99,14 @@ function EditEntry() {
               />
             </div>
 
-            <button type="submit" className="btn">Save</button>
+            <button type="submit" className="btn">
+              Save
+            </button>
           </form>
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default EditEntry
+export default EditEntry;

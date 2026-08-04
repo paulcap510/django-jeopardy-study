@@ -123,7 +123,14 @@ function EntryDetail() {
     return () => document.removeEventListener('mouseup', handleMouseUp);
   });
 
-  if (!entry) return <p>Loading...</p>;
+  if (!entry) {
+    return (
+      <div className="page">
+        <p style={{ textAlign: 'center' }}>Loading...</p>
+      </div>
+    );
+  }
+  // if (!entry) return <p>Loading...</p>;
 
   const facts = parseFacts(entry.content);
 
