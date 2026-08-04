@@ -1,0 +1,48 @@
+.entry-page-inner {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.form-card {
+  background: rgba(255, 255, 255, 0.04);
+  border: 2px solid var(--jeopardy-gold);
+  border-radius: 12px;
+  padding: 2rem;
+}
+
+.form-field {
+  margin-bottom: 1.3rem;
+}
+
+.form-field label {
+  display: block;
+  font-weight: 600;
+  color: var(--jeopardy-gold);
+  margin-bottom: 0.4rem;
+  font-size: 0.95rem;
+}
+
+.form-field input[type="text"],
+.form-field textarea {
+  width: 100%;
+  font-family: inherit;
+  font-size: 1rem;
+  padding: 0.6rem 0.75rem;
+  border-radius: 6px;
+  border: 2px solid var(--jeopardy-gold);
+  background: rgba(255, 255, 255, 0.95);
+  color: var(--jeopardy-blue-darker);
+  box-sizing: border-box;
+}
+
+.form-field textarea {
+  min-height: 160px;
+  resize: vertical;
+}
+
+.form-field input:focus,
+.form-field textarea:focus {
+  outline: none;
+  border-color: #ffe066;
+  box-shadow: 0 0 0 3px rgba(255, 204, 0, 0.4);
+}

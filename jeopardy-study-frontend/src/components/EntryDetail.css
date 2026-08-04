@@ -1,0 +1,127 @@
+.fact-list {
+  list-style: none;
+  margin: 0 0 1.5rem;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+@keyframes fact-in {
+  from {
+    opacity: 0;
+    transform: translateX(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.fact-card {
+  background: linear-gradient(
+    135deg,
+    #0810f2 0%,
+    var(--jeopardy-blue-dark) 100%
+  );
+  border: 2px solid var(--jeopardy-gold);
+  border-radius: 10px;
+  padding: 1rem 1.25rem;
+  font-size: 1.05rem;
+  line-height: 1.5;
+  box-shadow:
+    0 3px 0 var(--jeopardy-gold-dark),
+    0 6px 12px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  animation: fact-in 0.35s ease forwards;
+}
+
+.entry-page-inner {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.entry-categories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0 0 1.5rem;
+}
+
+.category-tag {
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.3rem 0.8rem;
+  border-radius: 999px;
+  border: 1px solid;
+  text-decoration: none;
+  display: inline-block;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    filter 0.15s ease;
+}
+
+.category-tag:hover {
+  transform: translateY(-2px) scale(1.05);
+  filter: brightness(1.2);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.clue-box {
+  background: linear-gradient(
+    160deg,
+    #0810f2 0%,
+    var(--jeopardy-blue-dark) 100%
+  );
+  border: 3px solid var(--jeopardy-gold);
+  border-radius: 10px;
+  padding: 1.75rem;
+  margin: 0 0 1.5rem;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  white-space: pre-line;
+  box-shadow:
+    0 4px 0 var(--jeopardy-gold-dark),
+    0 8px 16px rgba(0, 0, 0, 0.35);
+}
+
+.entry-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+.wiki-link {
+  color: var(--jeopardy-gold);
+  text-decoration: underline;
+  text-decoration-color: rgba(255, 204, 0, 0.4);
+  text-decoration-thickness: 3px;
+  transition:
+    color 0.15s ease,
+    text-decoration-color 0.15s ease,
+    text-decoration-thickness 0.15s ease;
+}
+
+.wiki-link:hover {
+  color: #ffe066;
+  text-decoration-color: #ffe066;
+  text-decoration-thickness: 2px;
+}
+
+.selection-buttons {
+  position: absolute;
+  display: flex;
+  gap: 0.5rem;
+  z-index: 1000;
+}
+
+.selection-buttons button {
+  font-family: 'Anton', 'Arial Black', sans-serif;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  border: 2px solid var(--jeopardy-gold);
+  background: var(--jeopardy-gold);
+  color: var(--jeopardy-blue-darker);
+  cursor: pointer;
+  box-shadow: 0 3px 0 var(--jeopardy-gold-dark);
+}

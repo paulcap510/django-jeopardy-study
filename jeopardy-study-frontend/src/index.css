@@ -1,0 +1,13 @@
+:root {
+  --jeopardy-blue: #060ce9;
+  --jeopardy-blue-dark: #02036c;
+  --jeopardy-blue-darker: #010233;
+  --jeopardy-gold: #ffcc00;
+  --jeopardy-gold-dark: #cc9900;
+  --clue-white: #ffffff;
+}
+
+body {
+  margin: 0;
+  font-family: 'Barlow', 'Helvetica Neue', Arial, sans-serif;
+}
