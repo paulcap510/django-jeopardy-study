@@ -16,11 +16,15 @@
 <div class="clue-box">{{ entry.content|render_links:entry|linebreaksbr }}</div>
 
 <div class="actions">
+  {% comment %}
   <a class="btn" href="{% url 'edit_entry' entry.id %}">Edit</a>
+  {% endcomment %}
+  {% comment %}
   <form method="post" action="{% url 'delete_entry' entry.id %}">
     {% csrf_token %}
     <button class="btn btn-danger" type="submit">Delete</button>
   </form>
+  {% endcomment %}
 </div>
 
 <a class="back-link" href="{% url 'home' %}">&larr; Home</a>
@@ -53,11 +57,15 @@ document.addEventListener('DOMContentLoaded', function () {
       buttonGroup.style.top = (window.scrollY + rect.top - groupHeight - 8) + 'px';
 
       addBtn.onclick = function () {
+        {% comment %}
         window.location.href = "{% url 'add_entry' %}?name=" + encodeURIComponent(selectedText);
+        {% endcomment %}
       };
 
       generateBtn.onclick = function () {
+        {% comment %}
         window.location.href = "{% url 'generate_entry' %}?name=" + encodeURIComponent(selectedText);
+        {% endcomment %}
       };
     } else {
       buttonGroup.style.display = 'none';

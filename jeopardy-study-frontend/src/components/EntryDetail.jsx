@@ -90,6 +90,8 @@ function EntryDetail() {
       .then((data) => setAllEntries(data));
   }, [id]);
 
+  const [error, setError] = useState('');
+
   const handleDelete = () => {
     if (!window.confirm('Delete this entry?')) return;
 
@@ -98,8 +100,14 @@ function EntryDetail() {
       headers: {
         'X-Admin-Key': ADMIN_KEY,
       },
-    }).then(() => {
-      navigate('/');
+    }).then((res) => {
+      if (res.status === 204) {
+        navigate('/');
+      } else {
+        res.json().then((data) => {
+          setError(data.error || 'Something went wrong');
+        });
+      }
     });
   };
 
@@ -144,6 +152,7 @@ function EntryDetail() {
           ← Back
         </Link>
         <h1 className="entry-title">{entry.name}</h1>
+        {error && <p style={{ color: '#ff6b6b' }}>{error}</p>}
 
         {entry.categories.length > 0 && (
           <div className="entry-categories">

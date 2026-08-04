@@ -6,6 +6,7 @@ import { API_URL, ADMIN_KEY } from '../api';
 function EditEntry() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const [error, setError] = useState('');
 
   const [entry, setEntry] = useState(null);
   const [formData, setFormData] = useState({
@@ -34,15 +35,23 @@ function EditEntry() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setError('');
 
     fetch(`${API_URL}/api/entries/${id}/edit/`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json', 'X-Admin-Key': ADMIN_KEY },
       body: JSON.stringify(formData),
     })
-      .then((res) => res.json())
-      .then((data) => {
-        navigate(`/entries/${data.id}`);
+      .then((res) => res.json().then((data) => ({ status: res.status, data })))
+      .then(({ status, data }) => {
+        if (status === 200) {
+          navigate(`/entries/${data.id}`);
+        } else {
+          setError(data.error || 'Something went wrong.');
+        }
+      })
+      .catch(() => {
+        setError('Something went wrong. Please try again.');
       });
   };
 
@@ -53,7 +62,6 @@ function EditEntry() {
       </div>
     );
   }
-  // if (!entry) return <p>Loading...</p>;
 
   return (
     <div className="page">
@@ -62,6 +70,7 @@ function EditEntry() {
           ← Back
         </Link>
         <h1 className="entry-title">Edit entry</h1>
+        {error && <p style={{ color: '#ff6b6b' }}>{error}</p>}
 
         <div className="form-card">
           <form onSubmit={handleSubmit}>

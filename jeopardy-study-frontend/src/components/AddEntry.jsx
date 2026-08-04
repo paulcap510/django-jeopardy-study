@@ -5,7 +5,7 @@ import { API_URL, ADMIN_KEY } from '../api';
 
 function AddEntry() {
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams(); //?
+  const [searchParams] = useSearchParams();
   const initialName = searchParams.get('name') || '';
 
   const [formData, setFormData] = useState({
@@ -13,6 +13,7 @@ function AddEntry() {
     content: '',
     categories_text: '',
   });
+  const [error, setError] = useState('');
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -21,6 +22,7 @@ function AddEntry() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setError('');
 
     fetch(`${API_URL}/api/entries/add/`, {
       method: 'POST',
@@ -30,9 +32,16 @@ function AddEntry() {
       },
       body: JSON.stringify(formData),
     })
-      .then((res) => res.json())
-      .then((data) => {
-        navigate(`/entries/${data.id}`);
+      .then((res) => res.json().then((data) => ({ status: res.status, data })))
+      .then(({ status, data }) => {
+        if (status === 201) {
+          navigate(`/entries/${data.id}`);
+        } else {
+          setError(data.error || 'Something went wrong.');
+        }
+      })
+      .catch(() => {
+        setError('Something went wrong. Please try again.');
       });
   };
 
@@ -43,7 +52,7 @@ function AddEntry() {
           ← Back
         </Link>
         <h1 className="entry-title">Add a new entry</h1>
-
+        {error && <p style={{ color: '#ff6b6b' }}>{error}</p>}
         <div className="form-card">
           <form onSubmit={handleSubmit}>
             <div className="form-field">
