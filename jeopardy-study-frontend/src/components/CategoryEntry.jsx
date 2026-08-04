@@ -28,7 +28,7 @@ function CategoryEntry() {
   if (loading) {
     return (
       <div className="page">
-        <p style={{ textAlign: 'center' }}>Loading...</p>
+        <p className="loading-text">Loading...</p>
       </div>
     );
   }
