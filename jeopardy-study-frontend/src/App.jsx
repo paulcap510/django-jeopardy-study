@@ -12,6 +12,7 @@ import AllEntries from './components/AllEntries';
 import ScrollToTop from './components/ScrollToTop';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import NotFound from './components/NotFound';
 
 function PageWrapper({ children }) {
   return (
@@ -101,6 +102,14 @@ function AnimatedRoutes() {
           element={
             <PageWrapper>
               <GenerateEntry />
+            </PageWrapper>
+          }
+        />
+        <Route
+          path="*"
+          element={
+            <PageWrapper>
+              <NotFound />
             </PageWrapper>
           }
         />
