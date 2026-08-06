@@ -4,8 +4,6 @@ A personal trivia study wiki built with Django and React. Browse, search, and ed
 
 **Live app:** https://django-jeopardy-study-frontend.onrender.com
 
-Note: the backend service is currently suspended to save resources. The frontend will show empty data until it's resumed from the Render dashboard.
-
 ## Features
 
 - Create, edit, and delete entries on any topic
