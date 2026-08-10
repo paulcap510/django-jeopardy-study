@@ -97,6 +97,22 @@ A personal trivia study wiki built with Django and React. Browse, search, and ed
 
 Both the backend and frontend need to be running for the app to work locally.
 
+### Running both servers together
+
+Instead of starting the backend and frontend separately, you can use the included `start.sh` script from the project root:
+
+```bash
+./start.sh
+```
+
+This runs `python manage.py runserver` and `npm run dev` (from `jeopardy-study-frontend/`) together, and stops both when you press `Ctrl+C`.
+
+The first time only, make it executable:
+
+```bash
+chmod +x start.sh
+```
+
 ## Usage
 
 - Adding, editing, generating, and deleting entries requires the admin key, so those actions only work when running with a matching `ADMIN_SECRET_KEY` / `VITE_ADMIN_KEY` pair. On the public deployment, those controls are visible but disabled for everyone else.
