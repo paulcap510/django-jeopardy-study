@@ -147,3 +147,13 @@ python manage.py sqlsequencereset trivia | python manage.py dbshell
 ```
 
 Confirm which database `DATABASE_URL` points to before running destructive commands like `Entry.objects.all().delete()`.
+
+## Testing
+
+Run the test suite (uses in-memory SQLite, no Neon connection required):
+
+```bash
+python manage.py test trivia
+```
+
+Currently covers the admin-key write protection (create/edit/delete/generate require a valid `X-ADMIN-KEY` header).
