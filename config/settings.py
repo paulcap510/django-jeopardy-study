@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 import os
+import sys
 from dotenv import load_dotenv
 import dj_database_url
 from corsheaders.defaults import default_headers
@@ -102,6 +103,15 @@ WSGI_APPLICATION = "config.wsgi.application"
 DATABASES = {
     "default": dj_database_url.config(default=f'sqlite:///{BASE_DIR / "db.sqlite3"}')
 }
+
+# Use an in-memory SQLite database for test runs so `manage.py test` never
+# tries to create a temporary test database on the production Neon Postgres
+# instance. Dev/production database configuration above is untouched.
+if "test" in sys.argv:
+    DATABASES["default"] = {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": ":memory:",
+    }
 
 
 # Password validation
