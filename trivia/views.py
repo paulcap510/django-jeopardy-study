@@ -8,6 +8,7 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .serializers import EntrySerializer, CategorySerializer
+from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
 
 
 def check_admin_key(request):
@@ -152,25 +153,45 @@ def api_edit_entry(request, entry_id):
 
 @api_view(["GET"])
 def api_search_results(request):
-    query = request.GET.get("q", "")
+    query = request.GET.get("q", "").strip()
+    entries = Entry.objects.none()
+
     if query:
-        entries = Entry.objects.filter(
-            Q(name__icontains=query) | Q(content__icontains=query)
+        search_query = SearchQuery(query)
+        entries = (
+            Entry.objects.annotate(
+                search=SearchVector("name", "content", "categories__name"),
+                rank=SearchRank(
+                    SearchVector("name", "content", "categories__name"), search_query
+                ),
+            )
+            .filter(search=search_query)
+            .order_by("-rank")
+            .distinct()
         )
-    else:
-        entries = Entry.objects.none()
+
     serializer = EntrySerializer(entries, many=True)
     return Response(serializer.data)
 
 
 def search_results(request):
-    query = request.GET.get("q", "")
+    query = request.GET.get("q", "").strip()
+    entries = Entry.objects.none()
+
     if query:
-        entries = Entry.objects.filter(
-            Q(name__icontains=query) | Q(content__icontains=query)
+        search_query = SearchQuery(query)
+        entries = (
+            Entry.objects.annotate(
+                search=SearchVector("name", "content", "categories__name"),
+                rank=SearchRank(
+                    SearchVector("name", "content", "categories__name"), search_query
+                ),
+            )
+            .filter(search=search_query)
+            .order_by("-rank")
+            .distinct()
         )
-    else:
-        entries = Entry.objects.none()
+
     return render(
         request, "trivia/search_results.html", {"entries": entries, "query": query}
     )
